@@ -59,20 +59,42 @@ public class Main {
                                 repetirProceso = InputScanner.leerEntero("1. Si       2. No");
                             }
                             break;
+
                         case 2:
                             gestorProductos.mostrarProductos();
                             break;
+
                         case 3:
-                            String nombre = InputScanner.leerTexto("Ingrese nombre de producto a buscar: ");
-                            Producto p = null;
-                            try {
-                                p = gestorProductos.buscarProducto(nombre);
-                                p.mostrarDatos();
-                            } catch (ProductoNotFoundException e) {
-                                System.out.println(e.getMessage());
+                            int busqueda =InputScanner.leerEntero("""
+                                    Como desea buscar el producto?
+                                    
+                                    1) Nombre       2) ID\s""");
+                            if(busqueda==1){
+                                String nombre = InputScanner.leerTexto("Ingrese nombre de producto a buscar: ");
+
+                                try {
+                                    Producto p = gestorProductos.buscarProducto(nombre);
+                                    p.mostrarDatos();
+                                } catch (ProductoNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }else if(busqueda==2){
+                                int id = InputScanner.leerEntero("Ingrese ID de producto a buscar: ");
+
+                                try {
+                                    Producto p = gestorProductos.buscarProducto(id);
+                                    p.mostrarDatos();
+                                } catch (ProductoNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }else{
+                                System.out.println("Ingrese una opcion correcta");
                             }
+
                             break;
+
                         case 4:
+
                             int id = InputScanner.leerEntero("Ingrese id del Producto a eliminar: ");
                             try {
                                 gestorProductos.eliminarProducto(id);
@@ -82,10 +104,14 @@ public class Main {
                             }
 
                             break;
+
                         case 5:
+
                             break;
+
                         case 6:
                             break;
+
                         case 7:
                             System.out.println("Gracias, vuelva pronto!");
                             flag=1;
