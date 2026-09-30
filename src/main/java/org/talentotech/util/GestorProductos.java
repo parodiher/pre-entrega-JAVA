@@ -129,4 +129,21 @@ public class GestorProductos {
         throw new ProductoNotFoundException("No se ha encontrado el producto.");
     }
 
+    public Producto buscarProductoId(int id){
+        for (Producto p : listaProductos){
+            if (p.getId()==id){
+                return p;
+            }
+        }
+
+        throw new ProductoNotFoundException("No se ha encontrado el producto.");
+    }
+
+    public void eliminarProducto(int id){
+        Producto p = buscarProductoId(id);
+        if(p!=null){
+            listaProductos.remove(p);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.talentotech;
 
+import org.talentotech.exceptions.ProductoNotFoundException;
 import org.talentotech.productos.Comida;
 import org.talentotech.productos.Producto;
 import org.talentotech.util.GestorProductos;
@@ -63,13 +64,23 @@ public class Main {
                             break;
                         case 3:
                             String nombre = InputScanner.leerTexto("Ingrese nombre de producto a buscar: ");
-                            Producto p = gestorProductos.buscarProducto(nombre);
-                            p.mostrarDatos();
-
-
+                            Producto p = null;
+                            try {
+                                p = gestorProductos.buscarProducto(nombre);
+                                p.mostrarDatos();
+                            } catch (ProductoNotFoundException e) {
+                                System.out.println(e.getMessage());
+                            }
                             break;
                         case 4:
-                            //gestorProductos.eliminarProducto();
+                            int id = InputScanner.leerEntero("Ingrese id del Producto a eliminar: ");
+                            try {
+                                gestorProductos.eliminarProducto(id);
+                                System.out.println("Producto eliminado");
+                            } catch (ProductoNotFoundException e) {
+                                System.out.println(e.getMessage());
+                            }
+
                             break;
                         case 5:
                             break;

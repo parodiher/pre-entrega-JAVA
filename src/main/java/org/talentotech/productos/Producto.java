@@ -61,6 +61,14 @@ public abstract class Producto {
         return stock;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
