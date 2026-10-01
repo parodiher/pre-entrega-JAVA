@@ -1,13 +1,15 @@
-package org.talentotech.util;
+package org.talentotech.service;
 
 import org.talentotech.exceptions.ProductoNotFoundException;
 import org.talentotech.productos.Bebida;
 import org.talentotech.productos.Comida;
 import org.talentotech.productos.Producto;
+import org.talentotech.util.InputScanner;
+import org.talentotech.util.Validador;
 
 import java.util.*;
 
-public class GestorProductos {
+public class ProductoService {
 
     private List<Producto> listaProductos = new ArrayList();
 
@@ -144,6 +146,22 @@ public class GestorProductos {
         if(p!=null){
             listaProductos.remove(p);
         }
+    }
+
+    public void actualizarStock(int id){
+        Producto p = buscarProducto(id);
+
+        p.setStock(InputScanner.leerEntero("Ingrese nuevo stock: "));
+
+        System.out.println("El producto ha sido actualizado");
+    }
+
+    public void actualizarPrecio (int id){
+        Producto p = buscarProducto(id);
+
+        p.setPrecio(InputScanner.leerDouble("Ingrese nuevo precio:"));
+
+        System.out.println("El producto ha sido actualizado");
     }
 
 }

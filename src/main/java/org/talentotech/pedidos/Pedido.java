@@ -10,7 +10,12 @@ import java.util.Map;
 public class Pedido {
     private static int contadorid;
     private int id;
-    private Map<Producto, Integer> productos = new HashMap<>();
+    private Map<Producto, Integer> productos;
+
+    public Pedido() {
+        this.id=++contadorid;
+        this.productos = new HashMap<>();
+    }
 
     public int getId() {
         return id;
@@ -33,13 +38,15 @@ public class Pedido {
 
 
 
-    public void mostrarProductos(){
+    public void mostrarDatos(){
         if(productos.isEmpty()){
             System.out.println("El pedido esta vacío");
         }else{
+            System.out.println("Pedido ID: " + this.getId());
             productos.forEach((producto, cantidad)->{
                 System.out.println("Proucto: " + producto.getNombre() + " ----- Cantidad: " + cantidad);
             });
+            System.out.println("Total a pagar: ");
         }
     }
 

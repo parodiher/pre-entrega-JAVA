@@ -1,9 +1,8 @@
 package org.talentotech;
 
 import org.talentotech.exceptions.ProductoNotFoundException;
-import org.talentotech.productos.Comida;
 import org.talentotech.productos.Producto;
-import org.talentotech.util.GestorProductos;
+import org.talentotech.service.ProductoService;
 import org.talentotech.util.InputScanner;
 
 import java.util.ArrayList;
@@ -13,14 +12,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Bienvenido al sistema de gestion de compra venta");
-        GestorProductos gestorProductos = new GestorProductos();
+        ProductoService productoService = new ProductoService();
         int flag =0;
         while (flag == 0){
             System.out.println("Por favor ingrese la opción correspondiente: ");
             System.out.println("""
                     1) Agregar producto
                     2) Listar productos
-                    3) Buscar/Actualizar producto por nombre
+                    3) Buscar/Actualizar producto
                     4) Eliminar producto
                     5) Crear un pedido
                     6) Listar pedidos
@@ -38,6 +37,7 @@ public class Main {
                 int seleccion = InputScanner.leerEntero("Elija una opción: ");
                 if (opciones.contains(seleccion)){
                     switch (seleccion){
+                        //Agregar producto
                         case 1:
                             int repetirProceso=1;
                             while (repetirProceso ==1) {
@@ -48,10 +48,10 @@ public class Main {
 
                                 switch (tipoProducto){
                                     case 1:
-                                        gestorProductos.agregarComida();
+                                        productoService.agregarComida();
                                         break;
                                     case 2:
-                                        gestorProductos.agregarBebida();
+                                        productoService.agregarBebida();
                                         break;
                                 }
                                 System.out.println("¿Desea agregar otro producto?");
@@ -59,11 +59,11 @@ public class Main {
                                 repetirProceso = InputScanner.leerEntero("1. Si       2. No");
                             }
                             break;
-
+                        //Mostrar productos
                         case 2:
-                            gestorProductos.mostrarProductos();
+                            productoService.mostrarProductos();
                             break;
-
+                        //Buscar Productos
                         case 3:
                             int busqueda =InputScanner.leerEntero("""
                                     Como desea buscar el producto?
@@ -73,7 +73,7 @@ public class Main {
                                 String nombre = InputScanner.leerTexto("Ingrese nombre de producto a buscar: ");
 
                                 try {
-                                    Producto p = gestorProductos.buscarProducto(nombre);
+                                    Producto p = productoService.buscarProducto(nombre);
                                     p.mostrarDatos();
                                 } catch (ProductoNotFoundException e) {
                                     System.out.println(e.getMessage());
@@ -82,7 +82,7 @@ public class Main {
                                 int id = InputScanner.leerEntero("Ingrese ID de producto a buscar: ");
 
                                 try {
-                                    Producto p = gestorProductos.buscarProducto(id);
+                                    Producto p = productoService.buscarProducto(id);
                                     p.mostrarDatos();
                                 } catch (ProductoNotFoundException e) {
                                     System.out.println(e.getMessage());
@@ -91,13 +91,30 @@ public class Main {
                                 System.out.println("Ingrese una opcion correcta");
                             }
 
-                            break;
+                            int actualizacion = InputScanner.leerEntero("""
+                                    Desea actualizar el producto? 
+                                    1) Actualizar stock
+                                    2) Actualizar precio
+                                    3) Salir""");
+                            switch (actualizacion){
+                                case 1:
+                                    productoService.actualizarStock(InputScanner.leerEntero("Ingrese ID del producto a actualizar: "));
+                                    break;
+                                case 2:
+                                    productoService.actualizarPrecio(InputScanner.leerEntero("Ingrese ID del producto a actualizar: "));
+                                default:
+                                    break;
 
+                            }
+
+
+                            break;
+                        //Eliminar producto
                         case 4:
 
                             int id = InputScanner.leerEntero("Ingrese id del Producto a eliminar: ");
                             try {
-                                gestorProductos.eliminarProducto(id);
+                                productoService.eliminarProducto(id);
                                 System.out.println("Producto eliminado");
                             } catch (ProductoNotFoundException e) {
                                 System.out.println(e.getMessage());
@@ -106,6 +123,7 @@ public class Main {
                             break;
 
                         case 5:
+
 
                             break;
 
