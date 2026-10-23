@@ -2,8 +2,8 @@ package org.talentotech.service;
 
 import org.talentotech.exceptions.PedidoNotFoundException;
 import org.talentotech.exceptions.StockInsuficienteException;
-import org.talentotech.pedidos.Pedido;
-import org.talentotech.productos.Producto;
+import org.talentotech.model.Pedido;
+import org.talentotech.model.Producto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,16 @@ public class PedidoService {
     }
 
     public void eliminarPedido(int id){
-        //TODO
         pedidos.remove(buscarPedido(id));
+    }
+
+    public void mostrarPedidos() {
+        if (pedidos.isEmpty()) {
+            throw new PedidoNotFoundException("No se han encontrado pedidos.");
+        } else {
+            pedidos.forEach(pedido -> {
+                pedido.mostrarDatos();
+            });
+        }
     }
 }

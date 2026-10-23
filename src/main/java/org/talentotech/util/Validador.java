@@ -19,4 +19,16 @@ public class Validador {
             throw new IllegalArgumentException("El stock no puede ser negativo");
         }
     }
+
+    public static void validarCategoria(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()){
+            throw new IllegalArgumentException("La categoria no puede estar vacía");
+        }
+    }
+
+    public static void validarCompra(int cantidad, int stock){
+        if (cantidad<stock){
+            throw new IllegalArgumentException("El stock es insuficiente");
+        }
+    }
 }

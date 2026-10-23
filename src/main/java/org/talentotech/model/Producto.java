@@ -1,44 +1,28 @@
-package org.talentotech.productos;
+package org.talentotech.model;
 
-public abstract class Producto {
-
-    //ATRIBUTOS ESTATICOS
-    //STATIC vive a nivel de clase, no de instancia. por eso se puede usar para los id
-    private static int contadorId = 0;
-    private static int totalProductos = 0;
+public class Producto {
 
     //ATRIBUTOS
     private int id;
     private String nombre;
     private Double precio;
     private int stock;
+    private String categoria;
 
     //CONSTRUCTORES
-    public Producto(String nombre, Double precio, int stock) {
-        this.id = ++contadorId;
+    public Producto(String nombre, Double precio, int stock, String categoria) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
-        totalProductos++;
+        this.categoria=categoria;
     }
 
     public Producto(String nombre, Double precio) {
-        this.id = ++contadorId;
         this.nombre = nombre;
         this.precio = precio;
-        totalProductos++;
     }
 
     public Producto() {
-        this.id = ++contadorId;
-    }
-
-    // metodos propios de la clase
-    public void mostrarDatos() {
-        System.out.println("ID: " + id);
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Precio: " + precio);
-        System.out.println("Stock: " + stock);
     }
 
     public String getNombre() {
@@ -71,5 +55,24 @@ public abstract class Producto {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", categoria='" + categoria + '\'' +
+                '}';
     }
 }

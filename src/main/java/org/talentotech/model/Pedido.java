@@ -1,10 +1,6 @@
-package org.talentotech.pedidos;
+package org.talentotech.model;
 
-import org.talentotech.productos.Producto;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Pedido {
@@ -45,8 +41,9 @@ public class Pedido {
             System.out.println("Pedido ID: " + this.getId());
             productos.forEach((producto, cantidad)->{
                 System.out.println("Proucto: " + producto.getNombre() + " ----- Cantidad: " + cantidad);
+                double total= producto.getPrecio()*cantidad;
+                System.out.println("Total a pagar: " + total);
             });
-            System.out.println("Total a pagar: ");
         }
     }
 
