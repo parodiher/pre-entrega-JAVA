@@ -14,10 +14,6 @@ public class ProductoService {
 
     private static int contadorId=1;
 
-    public ProductoService(List<Producto> listaProductos) {
-        this.listaProductos = listaProductos;
-    }
-
     public Producto guardarProducto(Producto p){
         Validador.validarNombre(p.getNombre());
         Validador.validarPrecio(p.getPrecio());
@@ -90,6 +86,14 @@ public class ProductoService {
         p.setStock(update.getStock());
         p.setCategoria(update.getCategoria());
         return p;
+    }
+
+    public void descontarStock(int id, int cantidad) {
+        Producto producto = buscarProductoPorId(id);
+
+        Validador.validarCompra(cantidad, producto.getStock());
+
+        producto.setStock(producto.getStock() - cantidad);
     }
 
 }

@@ -27,7 +27,7 @@ public class Validador {
     }
 
     public static void validarCompra(int cantidad, int stock){
-        if (cantidad<stock){
+        if (cantidad>stock){
             throw new IllegalArgumentException("El stock es insuficiente");
         }
     }

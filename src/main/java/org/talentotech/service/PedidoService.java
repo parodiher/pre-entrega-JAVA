@@ -16,25 +16,44 @@ public class PedidoService {
 
     private List<Pedido> pedidos = new ArrayList<>();
     private final ProductoService productoService;
+    private static int contadorid=1;
 
     public PedidoService(ProductoService productoService) {
         this.productoService = productoService;
     }
 
-    public Pedido crearPedido(List<ItemPedido> items){
-        //se valida que cada item cuente con la cantidad de stock suficiente
-        for (ItemPedido item : items){
-            Validador.validarCompra(
-                    item.getCantidad(),
-                    productoService.buscarProductoPorId(item.getProducto().getId()).getStock());
-        }
-
-        Pedido p = new Pedido(items);
-        pedidos.add(p);
-        return p;
+    public List<Pedido> mostrarPedidos(){
+        return pedidos;
     }
 
-    public Pedido buscarPedido(int id){
+    public Pedido crearPedido(List<ItemPedido> items){
+        for (ItemPedido item : items) {
+            Producto producto = productoService.buscarProductoPorId(
+                    item.getProducto().getId()
+            );
+
+            Validador.validarCompra(
+                    item.getCantidad(),
+                    producto.getStock()
+            );
+        }
+
+        // 2. Descontar el stock de cada producto
+        for (ItemPedido item : items) {
+            productoService.descontarStock(
+                    item.getProducto().getId(),
+                    item.getCantidad()
+            );
+        }
+
+        // 3. Crear y registrar el pedido
+        Pedido pedido = new Pedido(items);
+        pedidos.add(pedido);
+
+        return pedido;
+    }
+
+    public Pedido buscarPedidoPorId(int id){
         for (Pedido p : pedidos){
             if(p.getId()==id){
                 return p;
@@ -45,16 +64,6 @@ public class PedidoService {
     }
 
     public void eliminarPedido(int id){
-        pedidos.remove(buscarPedido(id));
-    }
-
-    public void mostrarPedidos() {
-        if (pedidos.isEmpty()) {
-            throw new PedidoNotFoundException("No se han encontrado pedidos.");
-        } else {
-            pedidos.forEach(pedido -> {
-                pedido.mostrarDatos();
-            });
-        }
+        pedidos.remove(buscarPedidoPorId(id));
     }
 }
