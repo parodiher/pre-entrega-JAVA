@@ -1,5 +1,6 @@
 package org.talentotech.service;
 
+import org.springframework.stereotype.Service;
 import org.talentotech.exceptions.PedidoNotFoundException;
 import org.talentotech.exceptions.StockInsuficienteException;
 import org.talentotech.model.Pedido;
@@ -8,6 +9,7 @@ import org.talentotech.model.Producto;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PedidoService {
 
     private List<Pedido> pedidos = new ArrayList<>();
