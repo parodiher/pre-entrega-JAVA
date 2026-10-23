@@ -96,4 +96,12 @@ public class ProductoService {
         producto.setStock(producto.getStock() - cantidad);
     }
 
+    public void aumentarStock(int id, int cantidad) {
+        Producto producto = buscarProductoPorId(id);
+
+        Validador.validarCompra(cantidad, producto.getStock());
+
+        producto.setStock(producto.getStock() + cantidad);
+    }
+
 }
