@@ -3,6 +3,7 @@ package org.talentotech.service;
 import org.springframework.stereotype.Service;
 import org.talentotech.exceptions.ProductoNotFoundException;
 import org.talentotech.model.Producto;
+import org.talentotech.repository.ProductoRepository;
 import org.talentotech.util.Validador;
 
 import java.util.*;
@@ -10,9 +11,15 @@ import java.util.*;
 @Service
 public class ProductoService {
 
-    private List<Producto> listaProductos = new ArrayList();
+    private final ProductoRepository productoRepository;
 
-    private static int contadorId=1;
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+//      Lista de productos implementacion vieja
+//    private List<Producto> listaProductos = new ArrayList();
+//
+//    private static int contadorId=1;
 
     public Producto guardarProducto(Producto p){
         Validador.validarNombre(p.getNombre());
@@ -20,41 +27,21 @@ public class ProductoService {
         Validador.validarStock(p.getStock());
         Validador.validarCategoria(p.getCategoria());
 
-        p.setId(contadorId);
-        contadorId++;
-
-        listaProductos.add(p);
-
+        productoRepository.save(p);
         return p;
     }
 
     public List<Producto> mostrarProductos(){
-        return listaProductos;
+        return productoRepository.findAll();
     }
 
-//    public Producto buscarProductoPorNombre (String nombre){
-//        for (Producto p : listaProductos){
-//            if (p.getNombre().equalsIgnoreCase(nombre)){
-//                return p;
-//            }
-//        }
-//        //si llega hasta aca es porque no se encontro
-//        throw new ProductoNotFoundException("No se ha encontrado el producto.");
-//    }
-
     public Producto buscarProductoPorId(int id){
-        for (Producto p : listaProductos){
-            if (p.getId()==id){
-                return p;
-            }
-        }
-
-        throw new ProductoNotFoundException("No se ha encontrado el producto.");
+        return productoRepository.findById(id)
+                .orElseThrow(() ->new ProductoNotFoundException("No se ha encontrado el producto"));
     }
 
     public void eliminarProducto(int id){
-        Producto p = buscarProductoPorId(id);
-        listaProductos.remove(p);
+        productoRepository.delete(buscarProductoPorId(id));
     }
 
 //    public void actualizarStock(int id){
@@ -85,7 +72,7 @@ public class ProductoService {
         p.setPrecio(update.getPrecio());
         p.setStock(update.getStock());
         p.setCategoria(update.getCategoria());
-        return p;
+        return productoRepository.save(p);
     }
 
     public void descontarStock(int id, int cantidad) {
@@ -94,6 +81,8 @@ public class ProductoService {
         Validador.validarCompra(cantidad, producto.getStock());
 
         producto.setStock(producto.getStock() - cantidad);
+
+        productoRepository.save(producto);
     }
 
     public void aumentarStock(int id, int cantidad) {
@@ -102,6 +91,8 @@ public class ProductoService {
         Validador.validarCompra(cantidad, producto.getStock());
 
         producto.setStock(producto.getStock() + cantidad);
+
+        productoRepository.save(producto);
     }
 
 }

@@ -2,6 +2,7 @@ package org.talentotech.model;
 
 public class ItemPedido {
 
+    private int id;
     private Producto producto;
     private int cantidad;
 

@@ -1,9 +1,6 @@
 package org.talentotech.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Pedido {
     private int id;
@@ -15,6 +12,9 @@ public class Pedido {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Pedido() {
     }
 
     public Pedido(List<ItemPedido> items) {
